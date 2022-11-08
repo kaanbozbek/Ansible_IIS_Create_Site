@@ -1,0 +1,19 @@
+- name: Creating site
+  hosts: "{{ Server_Type }}"
+  order: sorted
+  serial: 1
+  become: yes
+  become_method: runas
+  collections:
+    - ansible.windows
+  tasks:
+    - name: Copy file to server
+      win_copy:
+        src: ./Create_Site.ps1
+        dest: C:\Create_Site.ps1
+    - name: Run remote PowerShell Script to Create Site on IIS
+      win_command: powershell.exe -ExecutionPolicy ByPass -File C:/Create_Site.ps1 {{ Site_Name }}
+
+
+
+
